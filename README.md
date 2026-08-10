@@ -46,4 +46,12 @@ npm install
 npm run dev
 ```
 
-Available at http://localhost:5173
+
+## Credentials
+
+```bash
+Usernaem = admin@example.com
+Password = YourStrongPassword123
+```
+
+Available at https://med-grid-two.vercel.app
