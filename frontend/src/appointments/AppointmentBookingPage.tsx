@@ -1,0 +1,192 @@
+import { useEffect, useState } from 'react'
+import type { FormEvent } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { api, ApiError } from '../lib/api'
+import { Layout } from '../components/Layout'
+import type { Doctor, DoctorPage } from '../doctors/types'
+import type { Appointment } from './types'
+
+type PatientOption = { id: string; first_name: string; last_name: string; patient_number: string }
+type PatientSearchResult = { items: PatientOption[] }
+
+export function AppointmentBookingPage() {
+  const navigate = useNavigate()
+  const [doctors, setDoctors] = useState<Doctor[]>([])
+  const [doctorId, setDoctorId] = useState('')
+
+  const [patientSearch, setPatientSearch] = useState('')
+  const [patientResults, setPatientResults] = useState<PatientOption[]>([])
+  const [selectedPatient, setSelectedPatient] = useState<PatientOption | null>(null)
+
+  const [appointmentDate, setAppointmentDate] = useState('')
+  const [appointmentTime, setAppointmentTime] = useState('')
+  const [reason, setReason] = useState('')
+
+  const [error, setError] = useState<string | null>(null)
+  const [submitting, setSubmitting] = useState(false)
+
+  useEffect(() => {
+    api.get<DoctorPage>('/doctors?page_size=100').then((page) => setDoctors(page.items))
+  }, [])
+
+  useEffect(() => {
+    if (!patientSearch) {
+      setPatientResults([])
+      return
+    }
+    const timeout = setTimeout(() => {
+      api
+        .get<PatientSearchResult>(
+          `/patients?search=${encodeURIComponent(patientSearch)}&page_size=5`,
+        )
+        .then((page) => setPatientResults(page.items))
+        .catch(() => setPatientResults([]))
+    }, 300)
+    return () => clearTimeout(timeout)
+  }, [patientSearch])
+
+  async function handleSubmit(event: FormEvent) {
+    event.preventDefault()
+    setError(null)
+    if (!selectedPatient) {
+      setError('Please select a patient')
+      return
+    }
+    setSubmitting(true)
+    try {
+      const created = await api.post<Appointment>('/appointments', {
+        patient_id: selectedPatient.id,
+        doctor_id: doctorId,
+        appointment_date: appointmentDate,
+        appointment_time: appointmentTime,
+        reason,
+      })
+      navigate(`/appointments`, { state: { justBooked: created.id } })
+    } catch (err) {
+      setError(err instanceof ApiError ? err.message : 'Failed to book appointment')
+    } finally {
+      setSubmitting(false)
+    }
+  }
+
+  return (
+    <Layout>
+      <h1 className="text-lg font-semibold text-slate-900">Book Appointment</h1>
+
+      <form onSubmit={handleSubmit} className="mt-4 max-w-lg space-y-4">
+        <div>
+          <label className="block text-sm font-medium text-slate-700">Patient</label>
+          {selectedPatient ? (
+            <div className="mt-1 flex items-center justify-between rounded border border-slate-300 px-3 py-2 text-sm">
+              <span>
+                {selectedPatient.first_name} {selectedPatient.last_name}{' '}
+                <span className="text-slate-400">({selectedPatient.patient_number})</span>
+              </span>
+              <button
+                type="button"
+                onClick={() => {
+                  setSelectedPatient(null)
+                  setPatientSearch('')
+                }}
+                className="text-xs text-slate-500 underline"
+              >
+                Change
+              </button>
+            </div>
+          ) : (
+            <>
+              <input
+                value={patientSearch}
+                onChange={(e) => setPatientSearch(e.target.value)}
+                placeholder="Search patient by name, number, or phone..."
+                className="mt-1 w-full rounded border border-slate-300 px-3 py-2 text-sm"
+              />
+              {patientResults.length > 0 && (
+                <ul className="mt-1 rounded border border-slate-200 bg-white text-sm shadow-sm">
+                  {patientResults.map((p) => (
+                    <li key={p.id}>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setSelectedPatient(p)
+                          setPatientResults([])
+                        }}
+                        className="w-full px-3 py-2 text-left hover:bg-slate-50"
+                      >
+                        {p.first_name} {p.last_name}{' '}
+                        <span className="text-slate-400">({p.patient_number})</span>
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </>
+          )}
+        </div>
+
+        <label className="block text-sm font-medium text-slate-700">
+          Doctor
+          <select
+            required
+            value={doctorId}
+            onChange={(e) => setDoctorId(e.target.value)}
+            className="mt-1 w-full rounded border border-slate-300 px-3 py-2 text-sm"
+          >
+            <option value="" disabled>
+              Select a doctor
+            </option>
+            {doctors.map((d) => (
+              <option key={d.id} value={d.id}>
+                {d.name} - {d.specialization}
+              </option>
+            ))}
+          </select>
+        </label>
+
+        <div className="grid grid-cols-2 gap-4">
+          <label className="block text-sm font-medium text-slate-700">
+            Date
+            <input
+              type="date"
+              required
+              value={appointmentDate}
+              onChange={(e) => setAppointmentDate(e.target.value)}
+              className="mt-1 w-full rounded border border-slate-300 px-3 py-2 text-sm"
+            />
+          </label>
+          <label className="block text-sm font-medium text-slate-700">
+            Time
+            <input
+              type="time"
+              required
+              value={appointmentTime}
+              onChange={(e) => setAppointmentTime(e.target.value)}
+              className="mt-1 w-full rounded border border-slate-300 px-3 py-2 text-sm"
+            />
+          </label>
+        </div>
+
+        <label className="block text-sm font-medium text-slate-700">
+          Reason
+          <textarea
+            required
+            value={reason}
+            onChange={(e) => setReason(e.target.value)}
+            className="mt-1 w-full rounded border border-slate-300 px-3 py-2 text-sm"
+            rows={3}
+          />
+        </label>
+
+        {error && <p className="text-sm text-red-600">{error}</p>}
+
+        <button
+          type="submit"
+          disabled={submitting}
+          className="rounded bg-slate-900 px-4 py-2 text-sm font-medium text-white disabled:opacity-50"
+        >
+          {submitting ? 'Booking...' : 'Book Appointment'}
+        </button>
+      </form>
+    </Layout>
+  )
+}
