@@ -1,0 +1,92 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  backend-tests:
+    name: Backend Tests
+    runs-on: ubuntu-latest
+
+    # A real Postgres instance for the job's duration - Module 11's own
+    # testing lesson applies here too: test against the same database
+    # engine you deploy on, never a stand-in like SQLite.
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_USER: carebridge_app
+          POSTGRES_PASSWORD: ci_test_password
+          POSTGRES_DB: carebridge_test
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U carebridge_app -d carebridge_test"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+
+    env:
+      DATABASE_URL: postgresql+psycopg://carebridge_app:ci_test_password@localhost:5432/carebridge_test
+      TEST_DATABASE_URL: postgresql+psycopg://carebridge_app:ci_test_password@localhost:5432/carebridge_test
+      SECRET_KEY: ci-test-secret-key-not-for-production
+
+    steps:
+      # 1. Checkout repository - the runner starts as an empty VM with no
+      # access to our code at all until this step pulls it.
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: "pip"
+          cache-dependency-path: backend/requirements.txt
+
+      # 2. Install dependencies - the exact same requirements.txt used in
+      # local dev, Docker, and the Render deployment.
+      - name: Install backend dependencies
+        working-directory: backend
+        run: pip install -r requirements.txt
+
+      - name: Apply database migrations
+        working-directory: backend
+        run: alembic upgrade head
+
+      # 3. Run backend tests - Module 11's full suite (unit + integration
+      # + API), against the real Postgres service defined above.
+      - name: Run backend tests
+        working-directory: backend
+        run: pytest -v
+
+  frontend-checks:
+    name: Frontend Checks
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+          cache-dependency-path: frontend/package-lock.json
+
+      # 2. Install dependencies (frontend side)
+      - name: Install frontend dependencies
+        working-directory: frontend
+        run: npm ci
+
+      # 4. Run frontend checks/build
+      - name: Type-check
+        working-directory: frontend
+        run: npx tsc --noEmit
+
+      - name: Build production bundle
+        working-directory: frontend
+        run: npm run build

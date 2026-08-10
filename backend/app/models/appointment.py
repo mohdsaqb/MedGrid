@@ -57,6 +57,7 @@ class Appointment(Base):
         Enum(AppointmentStatus, name="appointment_status"),
         nullable=False,
         server_default=AppointmentStatus.SCHEDULED.value,
+        index=True,
     )
 
     created_at: Mapped[datetime] = mapped_column(

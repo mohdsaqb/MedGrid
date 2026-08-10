@@ -45,6 +45,16 @@ export function Layout({ children }: { children: ReactNode }) {
                     Lab Dashboard
                   </Link>
                 )}
+                {(user.role === 'ADMIN' || user.role === 'BILLING_STAFF') && (
+                  <Link to="/invoices" className="hover:text-slate-900">
+                    Billing
+                  </Link>
+                )}
+                {user.role === 'ADMIN' && (
+                  <Link to="/reports" className="hover:text-slate-900">
+                    Reports
+                  </Link>
+                )}
               </nav>
             )}
           </div>

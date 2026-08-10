@@ -49,6 +49,7 @@ class LabOrder(Base):
         Enum(LabStatus, name="lab_status"),
         nullable=False,
         server_default=LabStatus.PENDING.value,
+        index=True,
     )
     ordered_at: Mapped[datetime] = mapped_column(
         DateTime(timezone=True), server_default=func.now()

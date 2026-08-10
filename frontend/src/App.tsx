@@ -17,6 +17,10 @@ import { PatientClinicalHistoryPage } from './encounters/PatientClinicalHistoryP
 import { LabTestCatalogPage } from './labs/LabTestCatalogPage'
 import { LabOrderCreatePage } from './labs/LabOrderCreatePage'
 import { LabDashboardPage } from './labs/LabDashboardPage'
+import { InvoiceListPage } from './billing/InvoiceListPage'
+import { InvoiceCreatePage } from './billing/InvoiceCreatePage'
+import { InvoiceDetailPage } from './billing/InvoiceDetailPage'
+import { ReportsDashboardPage } from './reports/ReportsDashboardPage'
 
 function App() {
   return (
@@ -145,6 +149,40 @@ function App() {
             element={
               <ProtectedRoute>
                 <LabOrderCreatePage />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/invoices"
+            element={
+              <ProtectedRoute>
+                <InvoiceListPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/invoices/new"
+            element={
+              <ProtectedRoute>
+                <InvoiceCreatePage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/invoices/:id"
+            element={
+              <ProtectedRoute>
+                <InvoiceDetailPage />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/reports"
+            element={
+              <ProtectedRoute>
+                <ReportsDashboardPage />
               </ProtectedRoute>
             }
           />

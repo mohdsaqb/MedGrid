@@ -13,6 +13,8 @@ from app.models.clinical_record import ClinicalRecord, RecordType
 from app.models.lab_test import LabTest
 from app.models.lab_order import LabOrder, LabStatus
 from app.models.lab_result import LabResult
+from app.models.invoice import Invoice, InvoiceStatus
+from app.models.payment import Payment, PaymentMethod, PaymentStatus
 
 __all__ = [
     "Patient",
@@ -29,4 +31,9 @@ __all__ = [
     "LabOrder",
     "LabStatus",
     "LabResult",
+    "Invoice",
+    "InvoiceStatus",
+    "Payment",
+    "PaymentMethod",
+    "PaymentStatus",
 ]

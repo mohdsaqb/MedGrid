@@ -1,9 +1,13 @@
+import logging
+
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
 from app.models.user import User
 from app.schemas.user import UserCreate
 from app.utils.password import hash_password, verify_password
+
+logger = logging.getLogger(__name__)
 
 
 class EmailAlreadyRegisteredError(Exception):
@@ -46,9 +50,15 @@ def authenticate_user(db: Session, email: str, password: str) -> User:
     one it was ("that email isn't registered" vs "wrong password") leaks
     which emails have accounts, which is itself sensitive information.
     """
+    # Log the EMAIL attempted, never the password - a login attempt is a
+    # meaningful security-auditing event; the credential itself never is.
     user = get_user_by_email(db, email)
     if user is None or not verify_password(password, user.hashed_password):
+        logger.warning("Failed login attempt", extra={"email": email})
         raise InvalidCredentialsError()
     if not user.is_active:
+        logger.warning("Login attempt on deactivated account", extra={"email": email})
         raise InvalidCredentialsError()
+
+    logger.info("Successful login", extra={"email": email, "role": user.role.value})
     return user

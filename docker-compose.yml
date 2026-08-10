@@ -1,0 +1,53 @@
+services:
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: carebridge_app
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-devpassword}
+      POSTGRES_DB: carebridge
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    ports:
+      # Host 5433, not 5432 - avoids clashing with a local Postgres
+      # already running outside Docker (as ours is, from Module 2).
+      - "5433:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U carebridge_app -d carebridge"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  backend:
+    build: ./backend
+    environment:
+      # "db", not "localhost" - the container-networking lesson (Part 1,
+      # point 7): this hostname only resolves INSIDE the Compose network.
+      DATABASE_URL: postgresql+psycopg://carebridge_app:${POSTGRES_PASSWORD:-devpassword}@db:5432/carebridge
+      SECRET_KEY: ${SECRET_KEY:-dev-only-secret-change-me}
+      JWT_ALGORITHM: HS256
+      ACCESS_TOKEN_EXPIRE_MINUTES: "30"
+      CORS_ORIGINS: http://localhost:5173
+      APP_NAME: MedGrid API
+      ENVIRONMENT: development
+    ports:
+      - "8000:8000"
+    depends_on:
+      db:
+        condition: service_healthy
+
+  frontend:
+    build:
+      context: ./frontend
+      args:
+        # The BROWSER calls this URL, and the browser runs on the host,
+        # outside the Docker network - so this must be the backend's
+        # published host port (localhost:8000), NOT the internal service
+        # name "backend", which only other containers can resolve.
+        VITE_API_URL: http://localhost:8000
+    ports:
+      - "5173:80"
+    depends_on:
+      - backend
+
+volumes:
+  pgdata:

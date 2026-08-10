@@ -1,3 +1,4 @@
+import logging
 import time
 import uuid
 
@@ -19,6 +20,8 @@ from app.schemas.lab_order import LabOrderCreate
 from app.services.doctor_service import DoctorNotFoundError
 from app.services.lab_test_service import LabTestNotFoundError
 from app.services.patient_service import PatientNotFoundError
+
+logger = logging.getLogger(__name__)
 
 _WITH_RELATIONS = (
     selectinload(LabOrder.patient),
@@ -168,8 +171,13 @@ def process_lab_order(db: Session, order_id: uuid.UUID, simulate_failure: bool =
         )
         order.status = LabStatus.COMPLETED
         db.commit()
+        logger.info("Lab order completed", extra={"lab_order_id": str(order_id)})
         return get_lab_order(db, order_id)
 
     order.status = LabStatus.FAILED
     db.commit()
+    logger.warning(
+        "Lab integration failure - LIMS could not process order",
+        extra={"lab_order_id": str(order_id), "reason": reason},
+    )
     raise LabProcessingFailedError(reason)
