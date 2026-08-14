@@ -43,7 +43,7 @@ export function PatientEditPage() {
 
   return (
     <Layout>
-      <h1 className="text-lg font-semibold text-slate-900">
+      <h1 className="text-xl font-semibold tracking-tight text-slate-900">
         Edit {patient.first_name} {patient.last_name}
       </h1>
       <div className="mt-4">

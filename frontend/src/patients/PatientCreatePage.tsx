@@ -14,7 +14,7 @@ export function PatientCreatePage() {
 
   return (
     <Layout>
-      <h1 className="text-lg font-semibold text-slate-900">New Patient</h1>
+      <h1 className="text-xl font-semibold tracking-tight text-slate-900">New Patient</h1>
       <div className="mt-4">
         <PatientForm submitLabel="Create Patient" onSubmit={handleSubmit} />
       </div>

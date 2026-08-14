@@ -49,14 +49,14 @@ export function PatientDetailPage() {
   return (
     <Layout>
       <div className="flex items-center justify-between">
-        <h1 className="text-lg font-semibold text-slate-900">
+        <h1 className="text-xl font-semibold tracking-tight text-slate-900">
           {patient.first_name} {patient.last_name}
         </h1>
         <div className="flex gap-2">
           {canViewClinicalHistory && (
             <Link
               to={`/patients/${patient.id}/clinical-history`}
-              className="rounded border border-slate-300 px-3 py-2 text-sm"
+              className="rounded-lg border border-slate-300 px-3 py-2 text-sm transition-colors focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/30"
             >
               Clinical History
             </Link>
@@ -64,7 +64,7 @@ export function PatientDetailPage() {
           {canEdit && (
             <Link
               to={`/patients/${patient.id}/edit`}
-              className="rounded border border-slate-300 px-3 py-2 text-sm"
+              className="rounded-lg border border-slate-300 px-3 py-2 text-sm transition-colors focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/30"
             >
               Edit
             </Link>
@@ -72,7 +72,7 @@ export function PatientDetailPage() {
           {canDelete && (
             <button
               onClick={handleDelete}
-              className="rounded border border-red-300 px-3 py-2 text-sm text-red-600"
+              className="rounded-lg border border-red-300 px-3 py-2 text-sm font-medium text-red-600 transition-colors hover:bg-red-50"
             >
               Delete
             </button>
@@ -80,7 +80,7 @@ export function PatientDetailPage() {
         </div>
       </div>
 
-      <dl className="mt-4 grid grid-cols-2 gap-x-6 gap-y-3 rounded border border-slate-200 bg-white p-4 text-sm max-w-lg">
+      <dl className="mt-4 grid grid-cols-2 gap-x-6 gap-y-3 rounded-xl border border-slate-200 bg-white shadow-sm p-4 text-sm max-w-lg">
         <dt className="text-slate-500">Patient #</dt>
         <dd className="text-slate-900">{patient.patient_number}</dd>
 
@@ -103,7 +103,7 @@ export function PatientDetailPage() {
         <dd className="text-slate-900">{patient.address ?? '-'}</dd>
       </dl>
 
-      <Link to="/patients" className="mt-4 inline-block text-sm text-slate-500 underline">
+      <Link to="/patients" className="mt-4 inline-block text-sm text-slate-500 transition-colors hover:text-brand-600 hover:underline">
         ← Back to patients
       </Link>
     </Layout>

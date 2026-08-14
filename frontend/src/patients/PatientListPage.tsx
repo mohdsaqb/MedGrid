@@ -31,11 +31,11 @@ export function PatientListPage() {
   return (
     <Layout>
       <div className="flex items-center justify-between">
-        <h1 className="text-lg font-semibold text-slate-900">Patients</h1>
+        <h1 className="text-xl font-semibold tracking-tight text-slate-900">Patients</h1>
         {canCreate && (
           <Link
             to="/patients/new"
-            className="rounded bg-slate-900 px-3 py-2 text-sm font-medium text-white"
+            className="rounded-lg bg-brand-600 px-4 py-2 text-sm font-medium text-white shadow-sm transition-colors hover:bg-brand-700"
           >
             + New Patient
           </Link>
@@ -49,12 +49,12 @@ export function PatientListPage() {
           setSearch(e.target.value)
           setPage(1)
         }}
-        className="mt-4 w-full max-w-md rounded border border-slate-300 px-3 py-2 text-sm"
+        className="mt-4 w-full max-w-md rounded-lg border border-slate-300 px-3 py-2 text-sm transition-colors focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/30"
       />
 
       {error && <p className="mt-4 text-sm text-red-600">{error}</p>}
 
-      <div className="mt-4 overflow-x-auto rounded border border-slate-200 bg-white">
+      <div className="mt-4 overflow-x-auto rounded-xl border border-slate-200 bg-white shadow-sm">
         <table className="w-full text-left text-sm">
           <thead className="border-b border-slate-200 bg-slate-50 text-slate-500">
             <tr>
@@ -66,9 +66,9 @@ export function PatientListPage() {
           </thead>
           <tbody>
             {data?.items.map((patient) => (
-              <tr key={patient.id} className="border-b border-slate-100 last:border-0">
+              <tr key={patient.id} className="border-b border-slate-100 transition-colors last:border-0 hover:bg-slate-50">
                 <td className="px-4 py-2">
-                  <Link to={`/patients/${patient.id}`} className="text-slate-900 underline">
+                  <Link to={`/patients/${patient.id}`} className="font-medium text-brand-600 transition-colors hover:text-brand-700 hover:underline">
                     {patient.patient_number}
                   </Link>
                 </td>
@@ -99,14 +99,14 @@ export function PatientListPage() {
             <button
               disabled={page <= 1}
               onClick={() => setPage((p) => p - 1)}
-              className="rounded border border-slate-300 px-2 py-1 disabled:opacity-40"
+              className="rounded-lg border border-slate-300 px-3 py-1.5 text-sm transition-colors hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:bg-transparent"
             >
               Previous
             </button>
             <button
               disabled={page >= totalPages}
               onClick={() => setPage((p) => p + 1)}
-              className="rounded border border-slate-300 px-2 py-1 disabled:opacity-40"
+              className="rounded-lg border border-slate-300 px-3 py-1.5 text-sm transition-colors hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:bg-transparent"
             >
               Next
             </button>

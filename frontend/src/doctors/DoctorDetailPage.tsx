@@ -50,9 +50,9 @@ export function DoctorDetailPage() {
 
   return (
     <Layout>
-      <h1 className="text-lg font-semibold text-slate-900">{doctor.name}</h1>
+      <h1 className="text-xl font-semibold tracking-tight text-slate-900">{doctor.name}</h1>
 
-      <dl className="mt-4 grid grid-cols-2 gap-x-6 gap-y-3 rounded border border-slate-200 bg-white p-4 text-sm max-w-lg">
+      <dl className="mt-4 grid grid-cols-2 gap-x-6 gap-y-3 rounded-xl border border-slate-200 bg-white shadow-sm p-4 text-sm max-w-lg">
         <dt className="text-slate-500">Specialization</dt>
         <dd className="text-slate-900">{doctor.specialization}</dd>
 
@@ -83,7 +83,7 @@ export function DoctorDetailPage() {
         </div>
       )}
 
-      <Link to="/doctors" className="mt-4 inline-block text-sm text-slate-500 underline">
+      <Link to="/doctors" className="mt-4 inline-block text-sm text-slate-500 transition-colors hover:text-brand-600 hover:underline">
         ← Back to doctors
       </Link>
     </Layout>

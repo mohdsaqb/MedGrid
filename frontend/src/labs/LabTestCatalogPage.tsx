@@ -51,11 +51,11 @@ export function LabTestCatalogPage() {
 
   return (
     <Layout>
-      <h1 className="text-lg font-semibold text-slate-900">Lab Test Catalog</h1>
+      <h1 className="text-xl font-semibold tracking-tight text-slate-900">Lab Test Catalog</h1>
 
       {error && <p className="mt-4 text-sm text-red-600">{error}</p>}
 
-      <div className="mt-4 overflow-x-auto rounded border border-slate-200 bg-white">
+      <div className="mt-4 overflow-x-auto rounded-xl border border-slate-200 bg-white shadow-sm">
         <table className="w-full text-left text-sm">
           <thead className="border-b border-slate-200 bg-slate-50 text-slate-500">
             <tr>
@@ -66,7 +66,7 @@ export function LabTestCatalogPage() {
           </thead>
           <tbody>
             {data?.items.map((t) => (
-              <tr key={t.id} className="border-b border-slate-100 last:border-0">
+              <tr key={t.id} className="border-b border-slate-100 transition-colors last:border-0 hover:bg-slate-50">
                 <td className="px-4 py-2">{t.name}</td>
                 <td className="px-4 py-2">${t.price}</td>
                 <td className="px-4 py-2">{t.normal_range ?? '-'}</td>
@@ -77,7 +77,7 @@ export function LabTestCatalogPage() {
       </div>
 
       {canManage && (
-        <div className="mt-6 max-w-md rounded border border-slate-200 bg-white p-4">
+        <div className="mt-6 max-w-md rounded-xl border border-slate-200 bg-white shadow-sm p-4">
           <h2 className="text-sm font-semibold text-slate-700">Add Test to Catalog</h2>
           <form onSubmit={handleCreate} className="mt-3 space-y-3">
             <input
@@ -85,7 +85,7 @@ export function LabTestCatalogPage() {
               placeholder="Test name"
               value={name}
               onChange={(e) => setName(e.target.value)}
-              className="w-full rounded border border-slate-300 px-3 py-2 text-sm"
+              className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm transition-colors focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/30"
             />
             <input
               required
@@ -95,19 +95,19 @@ export function LabTestCatalogPage() {
               placeholder="Price"
               value={price}
               onChange={(e) => setPrice(e.target.value)}
-              className="w-full rounded border border-slate-300 px-3 py-2 text-sm"
+              className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm transition-colors focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/30"
             />
             <input
               placeholder="Normal range (optional)"
               value={normalRange}
               onChange={(e) => setNormalRange(e.target.value)}
-              className="w-full rounded border border-slate-300 px-3 py-2 text-sm"
+              className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm transition-colors focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/30"
             />
             {formError && <p className="text-sm text-red-600">{formError}</p>}
             <button
               type="submit"
               disabled={submitting}
-              className="rounded bg-slate-900 px-4 py-2 text-sm font-medium text-white disabled:opacity-50"
+              className="rounded-lg bg-brand-600 px-4 py-2 text-sm font-medium text-white shadow-sm transition-colors hover:bg-brand-700 disabled:cursor-not-allowed disabled:opacity-50"
             >
               {submitting ? 'Adding...' : 'Add Test'}
             </button>

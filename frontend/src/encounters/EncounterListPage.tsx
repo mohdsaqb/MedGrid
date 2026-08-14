@@ -33,11 +33,11 @@ export function EncounterListPage() {
   return (
     <Layout>
       <div className="flex items-center justify-between">
-        <h1 className="text-lg font-semibold text-slate-900">Encounters</h1>
+        <h1 className="text-xl font-semibold tracking-tight text-slate-900">Encounters</h1>
         {canDocument && (
           <Link
             to="/encounters/new"
-            className="rounded bg-slate-900 px-3 py-2 text-sm font-medium text-white"
+            className="rounded-lg bg-brand-600 px-4 py-2 text-sm font-medium text-white shadow-sm transition-colors hover:bg-brand-700"
           >
             + New Encounter
           </Link>
@@ -47,7 +47,7 @@ export function EncounterListPage() {
       <select
         value={status}
         onChange={(e) => setStatus(e.target.value as EncounterStatus | '')}
-        className="mt-4 rounded border border-slate-300 px-3 py-2 text-sm"
+        className="mt-4 rounded-lg border border-slate-300 px-3 py-2 text-sm transition-colors focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/30"
       >
         <option value="">All statuses</option>
         <option value="OPEN">OPEN</option>
@@ -56,7 +56,7 @@ export function EncounterListPage() {
 
       {error && <p className="mt-4 text-sm text-red-600">{error}</p>}
 
-      <div className="mt-4 overflow-x-auto rounded border border-slate-200 bg-white">
+      <div className="mt-4 overflow-x-auto rounded-xl border border-slate-200 bg-white shadow-sm">
         <table className="w-full text-left text-sm">
           <thead className="border-b border-slate-200 bg-slate-50 text-slate-500">
             <tr>
@@ -69,17 +69,17 @@ export function EncounterListPage() {
           </thead>
           <tbody>
             {data?.items.map((enc) => (
-              <tr key={enc.id} className="border-b border-slate-100 last:border-0">
+              <tr key={enc.id} className="border-b border-slate-100 transition-colors last:border-0 hover:bg-slate-50">
                 <td className="px-4 py-2">{new Date(enc.encounter_date).toLocaleString()}</td>
                 <td className="px-4 py-2">
-                  <Link to={`/encounters/${enc.id}`} className="underline">
+                  <Link to={`/encounters/${enc.id}`} className="font-medium text-brand-600 transition-colors hover:text-brand-700 hover:underline">
                     {enc.patient.first_name} {enc.patient.last_name}
                   </Link>
                 </td>
                 <td className="px-4 py-2">{enc.doctor.name}</td>
                 <td className="px-4 py-2">{enc.diagnosis}</td>
                 <td className="px-4 py-2">
-                  <span className={`rounded px-2 py-1 text-xs font-medium ${STATUS_STYLES[enc.status]}`}>
+                  <span className={`rounded-full px-2.5 py-1 text-xs font-semibold ring-1 ring-inset ring-black/5 ${STATUS_STYLES[enc.status]}`}>
                     {enc.status}
                   </span>
                 </td>

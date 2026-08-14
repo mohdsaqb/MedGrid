@@ -1,6 +1,25 @@
 import type { ReactNode } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { NavLink, useNavigate } from 'react-router-dom'
 import { useAuth } from '../auth/AuthContext'
+import { Logo } from './Logo'
+
+const NAV_LINK_BASE =
+  'rounded-lg px-3 py-1.5 text-sm font-medium transition-colors whitespace-nowrap'
+const NAV_LINK_ACTIVE = 'bg-brand-50 text-brand-700'
+const NAV_LINK_INACTIVE = 'text-slate-600 hover:bg-slate-50 hover:text-slate-900'
+
+function navLinkClass({ isActive }: { isActive: boolean }) {
+  return `${NAV_LINK_BASE} ${isActive ? NAV_LINK_ACTIVE : NAV_LINK_INACTIVE}`
+}
+
+function initials(fullName: string) {
+  return fullName
+    .split(' ')
+    .filter(Boolean)
+    .slice(0, 2)
+    .map((part) => part[0]?.toUpperCase())
+    .join('')
+}
 
 export function Layout({ children }: { children: ReactNode }) {
   const { user, logout } = useAuth()
@@ -13,64 +32,76 @@ export function Layout({ children }: { children: ReactNode }) {
 
   return (
     <div className="min-h-screen bg-slate-50">
-      <header className="border-b border-slate-200 bg-white">
-        <div className="mx-auto flex max-w-5xl items-center justify-between px-6 py-3">
-          <div className="flex items-center gap-5">
-            <Link to="/patients" className="font-semibold text-slate-900">
-              MedGrid
-            </Link>
+      <header className="sticky top-0 z-10 border-b border-slate-200 bg-white/95 backdrop-blur">
+        <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-6 py-3">
+          <div className="flex min-w-0 items-center gap-6">
+            <NavLink to="/patients" className="flex shrink-0 items-center gap-2">
+              <Logo size={26} />
+              <span className="text-base font-semibold tracking-tight text-slate-900">
+                MedGrid
+              </span>
+            </NavLink>
             {user && (
-              <nav className="flex gap-4 text-sm text-slate-600">
-                <Link to="/patients" className="hover:text-slate-900">
+              <nav className="flex flex-wrap items-center gap-1 overflow-x-auto">
+                <NavLink to="/patients" className={navLinkClass}>
                   Patients
-                </Link>
-                <Link to="/doctors" className="hover:text-slate-900">
+                </NavLink>
+                <NavLink to="/doctors" className={navLinkClass}>
                   Doctors
-                </Link>
-                <Link to="/appointments" className="hover:text-slate-900">
+                </NavLink>
+                <NavLink to="/appointments" className={navLinkClass}>
                   Appointments
-                </Link>
+                </NavLink>
                 {(user.role === 'ADMIN' || user.role === 'DOCTOR') && (
-                  <Link to="/encounters" className="hover:text-slate-900">
+                  <NavLink to="/encounters" className={navLinkClass}>
                     Encounters
-                  </Link>
+                  </NavLink>
                 )}
-                <Link to="/lab-tests" className="hover:text-slate-900">
+                <NavLink to="/lab-tests" className={navLinkClass}>
                   Lab Tests
-                </Link>
+                </NavLink>
                 {(user.role === 'ADMIN' ||
                   user.role === 'DOCTOR' ||
                   user.role === 'LAB_TECHNICIAN') && (
-                  <Link to="/lab-orders" className="hover:text-slate-900">
+                  <NavLink to="/lab-orders" className={navLinkClass}>
                     Lab Dashboard
-                  </Link>
+                  </NavLink>
                 )}
                 {(user.role === 'ADMIN' || user.role === 'BILLING_STAFF') && (
-                  <Link to="/invoices" className="hover:text-slate-900">
+                  <NavLink to="/invoices" className={navLinkClass}>
                     Billing
-                  </Link>
+                  </NavLink>
                 )}
                 {user.role === 'ADMIN' && (
-                  <Link to="/reports" className="hover:text-slate-900">
+                  <NavLink to="/reports" className={navLinkClass}>
                     Reports
-                  </Link>
+                  </NavLink>
                 )}
               </nav>
             )}
           </div>
           {user && (
-            <div className="flex items-center gap-3 text-sm text-slate-600">
-              <span>
-                {user.full_name} <span className="text-slate-400">({user.role})</span>
-              </span>
-              <button onClick={handleLogout} className="text-slate-500 underline">
+            <div className="flex shrink-0 items-center gap-3">
+              <div className="hidden items-center gap-2 sm:flex">
+                <span className="flex h-8 w-8 items-center justify-center rounded-full bg-brand-100 text-xs font-semibold text-brand-700">
+                  {initials(user.full_name)}
+                </span>
+                <div className="text-sm leading-tight">
+                  <p className="font-medium text-slate-900">{user.full_name}</p>
+                  <p className="text-xs text-slate-500">{user.role.replace('_', ' ')}</p>
+                </div>
+              </div>
+              <button
+                onClick={handleLogout}
+                className="rounded-lg border border-slate-300 px-3 py-1.5 text-sm font-medium text-slate-600 transition-colors hover:bg-slate-50 hover:text-slate-900"
+              >
                 Sign out
               </button>
             </div>
           )}
         </div>
       </header>
-      <main className="mx-auto max-w-5xl px-6 py-6">{children}</main>
+      <main className="mx-auto max-w-6xl px-6 py-8">{children}</main>
     </div>
   )
 }

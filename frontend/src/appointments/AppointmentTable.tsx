@@ -37,7 +37,7 @@ export function AppointmentTable({ appointments, onStatusChanged }: Props) {
   return (
     <div>
       {error && <p className="mb-2 text-sm text-red-600">{error}</p>}
-      <div className="overflow-x-auto rounded border border-slate-200 bg-white">
+      <div className="overflow-x-auto rounded-xl border border-slate-200 bg-white shadow-sm">
         <table className="w-full text-left text-sm">
           <thead className="border-b border-slate-200 bg-slate-50 text-slate-500">
             <tr>
@@ -51,7 +51,7 @@ export function AppointmentTable({ appointments, onStatusChanged }: Props) {
           </thead>
           <tbody>
             {appointments.map((appt) => (
-              <tr key={appt.id} className="border-b border-slate-100 last:border-0">
+              <tr key={appt.id} className="border-b border-slate-100 transition-colors last:border-0 hover:bg-slate-50">
                 <td className="px-4 py-2">{appt.appointment_date}</td>
                 <td className="px-4 py-2">{appt.appointment_time}</td>
                 <td className="px-4 py-2">
@@ -67,7 +67,7 @@ export function AppointmentTable({ appointments, onStatusChanged }: Props) {
                       onChange={(e) =>
                         handleStatusChange(appt.id, e.target.value as AppointmentStatus)
                       }
-                      className={`rounded border-0 px-2 py-1 text-xs font-medium ${STATUS_STYLES[appt.status]}`}
+                      className={`cursor-pointer rounded-full border-0 px-2.5 py-1 text-xs font-semibold ring-1 ring-inset ring-black/5 transition-colors focus:outline-none focus:ring-2 focus:ring-brand-500/30 ${STATUS_STYLES[appt.status]}`}
                     >
                       {STATUS_OPTIONS.map((s) => (
                         <option key={s} value={s}>
@@ -77,7 +77,7 @@ export function AppointmentTable({ appointments, onStatusChanged }: Props) {
                     </select>
                   ) : (
                     <span
-                      className={`rounded px-2 py-1 text-xs font-medium ${STATUS_STYLES[appt.status]}`}
+                      className={`rounded-full px-2.5 py-1 text-xs font-semibold ring-1 ring-inset ring-black/5 ${STATUS_STYLES[appt.status]}`}
                     >
                       {appt.status}
                     </span>

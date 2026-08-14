@@ -57,11 +57,11 @@ export function LabDashboardPage() {
   return (
     <Layout>
       <div className="flex items-center justify-between">
-        <h1 className="text-lg font-semibold text-slate-900">Lab Dashboard</h1>
+        <h1 className="text-xl font-semibold tracking-tight text-slate-900">Lab Dashboard</h1>
         {canOrder && (
           <Link
             to="/lab-orders/new"
-            className="rounded bg-slate-900 px-3 py-2 text-sm font-medium text-white"
+            className="rounded-lg bg-brand-600 px-4 py-2 text-sm font-medium text-white shadow-sm transition-colors hover:bg-brand-700"
           >
             + Order Test
           </Link>
@@ -74,7 +74,7 @@ export function LabDashboardPage() {
             key={s || 'ALL'}
             onClick={() => setStatus(s)}
             className={`rounded px-3 py-1 text-xs font-medium ${
-              status === s ? 'bg-slate-900 text-white' : 'bg-slate-100 text-slate-600'
+              status === s ? 'bg-brand-600 text-white' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
             }`}
           >
             {s || 'ALL'}
@@ -84,7 +84,7 @@ export function LabDashboardPage() {
 
       {error && <p className="mt-4 text-sm text-red-600">{error}</p>}
 
-      <div className="mt-4 overflow-x-auto rounded border border-slate-200 bg-white">
+      <div className="mt-4 overflow-x-auto rounded-xl border border-slate-200 bg-white shadow-sm">
         <table className="w-full text-left text-sm">
           <thead className="border-b border-slate-200 bg-slate-50 text-slate-500">
             <tr>
@@ -99,7 +99,7 @@ export function LabDashboardPage() {
           </thead>
           <tbody>
             {data?.items.map((order) => (
-              <tr key={order.id} className="border-b border-slate-100 last:border-0">
+              <tr key={order.id} className="border-b border-slate-100 transition-colors last:border-0 hover:bg-slate-50">
                 <td className="px-4 py-2">{new Date(order.ordered_at).toLocaleString()}</td>
                 <td className="px-4 py-2">
                   {order.patient.first_name} {order.patient.last_name}
@@ -113,7 +113,7 @@ export function LabDashboardPage() {
                 </td>
                 <td className="px-4 py-2">
                   <span
-                    className={`rounded px-2 py-1 text-xs font-medium ${STATUS_STYLES[order.status]}`}
+                    className={`rounded-full px-2.5 py-1 text-xs font-semibold ring-1 ring-inset ring-black/5 ${STATUS_STYLES[order.status]}`}
                   >
                     {order.status}
                   </span>
@@ -127,7 +127,7 @@ export function LabDashboardPage() {
                       <button
                         onClick={() => handleProcess(order.id)}
                         disabled={processingId === order.id}
-                        className="rounded border border-slate-300 px-3 py-1 text-xs disabled:opacity-50"
+                        className="rounded-lg border border-slate-300 px-3 py-1 text-xs font-medium transition-colors hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:bg-transparent"
                       >
                         {processingId === order.id
                           ? 'Processing...'

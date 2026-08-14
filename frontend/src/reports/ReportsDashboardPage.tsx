@@ -66,7 +66,7 @@ export function ReportsDashboardPage() {
 
   return (
     <Layout>
-      <h1 className="text-lg font-semibold text-slate-900">Reporting &amp; Analytics</h1>
+      <h1 className="text-xl font-semibold tracking-tight text-slate-900">Reporting &amp; Analytics</h1>
 
       {loading && <p className="mt-4 text-sm text-slate-500">Loading...</p>}
 
@@ -86,7 +86,7 @@ export function ReportsDashboardPage() {
 
           {/* Charts */}
           <div className="mt-6 grid gap-6 lg:grid-cols-2">
-            <div className="rounded border border-slate-200 bg-white p-4">
+            <div className="rounded-xl border border-slate-200 bg-white shadow-sm p-4">
               <h2 className="text-sm font-semibold text-slate-700">
                 Upcoming Appointments by Day
               </h2>
@@ -110,7 +110,7 @@ export function ReportsDashboardPage() {
               </div>
             </div>
 
-            <div className="rounded border border-slate-200 bg-white p-4">
+            <div className="rounded-xl border border-slate-200 bg-white shadow-sm p-4">
               <h2 className="text-sm font-semibold text-slate-700">Patients by Department</h2>
               <div className="mt-3 h-64">
                 <ResponsiveContainer width="100%" height="100%">
@@ -132,7 +132,7 @@ export function ReportsDashboardPage() {
           </div>
 
           {/* Doctor performance */}
-          <div className="mt-6 rounded border border-slate-200 bg-white p-4">
+          <div className="mt-6 rounded-xl border border-slate-200 bg-white shadow-sm p-4">
             <h2 className="text-sm font-semibold text-slate-700">Doctor Performance</h2>
             <div className="mt-3 h-64">
               <ResponsiveContainer width="100%" height="100%">
@@ -171,7 +171,7 @@ export function ReportsDashboardPage() {
                 </thead>
                 <tbody>
                   {doctorPerf.doctors.map((d) => (
-                    <tr key={d.id} className="border-b border-slate-100 last:border-0">
+                    <tr key={d.id} className="border-b border-slate-100 transition-colors last:border-0 hover:bg-slate-50">
                       <td className="py-2 pr-4">{d.name}</td>
                       <td className="py-2 pr-4">{d.department}</td>
                       <td className="py-2 pr-4">{d.appointment_count}</td>
@@ -184,7 +184,7 @@ export function ReportsDashboardPage() {
           </div>
 
           {/* Pending lab results - a status list, not a chart */}
-          <div className="mt-6 rounded border border-slate-200 bg-white p-4">
+          <div className="mt-6 rounded-xl border border-slate-200 bg-white shadow-sm p-4">
             <h2 className="text-sm font-semibold text-slate-700">
               Pending Laboratory Results ({labs.pending_orders.length})
             </h2>
@@ -200,7 +200,7 @@ export function ReportsDashboardPage() {
                 </thead>
                 <tbody>
                   {labs.pending_orders.map((o) => (
-                    <tr key={o.id} className="border-b border-slate-100 last:border-0">
+                    <tr key={o.id} className="border-b border-slate-100 transition-colors last:border-0 hover:bg-slate-50">
                       <td className="py-2 pr-4">{o.patient_name}</td>
                       <td className="py-2 pr-4">{o.doctor_name}</td>
                       <td className="py-2 pr-4">{o.test_name}</td>

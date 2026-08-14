@@ -56,13 +56,13 @@ export function InvoiceCreatePage() {
 
   return (
     <Layout>
-      <h1 className="text-lg font-semibold text-slate-900">New Invoice</h1>
+      <h1 className="text-xl font-semibold tracking-tight text-slate-900">New Invoice</h1>
 
       <form onSubmit={handleSubmit} className="mt-4 max-w-lg space-y-4">
         <div>
           <label className="block text-sm font-medium text-slate-700">Patient</label>
           {selectedPatient ? (
-            <div className="mt-1 flex items-center justify-between rounded border border-slate-300 px-3 py-2 text-sm">
+            <div className="mt-1 flex items-center justify-between rounded-lg border border-slate-300 px-3 py-2 text-sm transition-colors focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/30">
               <span>
                 {selectedPatient.first_name} {selectedPatient.last_name}{' '}
                 <span className="text-slate-400">({selectedPatient.patient_number})</span>
@@ -73,7 +73,7 @@ export function InvoiceCreatePage() {
                   setSelectedPatient(null)
                   setPatientSearch('')
                 }}
-                className="text-xs text-slate-500 underline"
+                className="text-xs text-slate-500 transition-colors hover:text-brand-600 hover:underline"
               >
                 Change
               </button>
@@ -84,10 +84,10 @@ export function InvoiceCreatePage() {
                 value={patientSearch}
                 onChange={(e) => setPatientSearch(e.target.value)}
                 placeholder="Search patient by name, number, or phone..."
-                className="mt-1 w-full rounded border border-slate-300 px-3 py-2 text-sm"
+                className="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm transition-colors focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/30"
               />
               {patientResults.length > 0 && (
-                <ul className="mt-1 rounded border border-slate-200 bg-white text-sm shadow-sm">
+                <ul className="mt-1 rounded-xl border border-slate-200 bg-white shadow-sm text-sm shadow-sm">
                   {patientResults.map((p) => (
                     <li key={p.id}>
                       <button
@@ -118,7 +118,7 @@ export function InvoiceCreatePage() {
             min="0.01"
             value={amount}
             onChange={(e) => setAmount(e.target.value)}
-            className="mt-1 w-full rounded border border-slate-300 px-3 py-2 text-sm"
+            className="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm transition-colors focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/30"
           />
         </label>
 
@@ -127,7 +127,7 @@ export function InvoiceCreatePage() {
         <button
           type="submit"
           disabled={submitting}
-          className="rounded bg-slate-900 px-4 py-2 text-sm font-medium text-white disabled:opacity-50"
+          className="rounded-lg bg-brand-600 px-4 py-2 text-sm font-medium text-white shadow-sm transition-colors hover:bg-brand-700 disabled:cursor-not-allowed disabled:opacity-50"
         >
           {submitting ? 'Creating...' : 'Create Invoice'}
         </button>

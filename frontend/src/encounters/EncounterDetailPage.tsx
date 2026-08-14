@@ -84,11 +84,11 @@ export function EncounterDetailPage() {
   return (
     <Layout>
       <div className="flex items-center justify-between">
-        <h1 className="text-lg font-semibold text-slate-900">
+        <h1 className="text-xl font-semibold tracking-tight text-slate-900">
           Encounter - {encounter.patient.first_name} {encounter.patient.last_name}
         </h1>
         <span
-          className={`rounded px-2 py-1 text-xs font-medium ${
+          className={`rounded-full px-2.5 py-1 text-xs font-semibold ring-1 ring-inset ring-black/5 ${
             isOpen ? 'bg-blue-50 text-blue-700' : 'bg-slate-100 text-slate-500'
           }`}
         >
@@ -96,7 +96,7 @@ export function EncounterDetailPage() {
         </span>
       </div>
 
-      <dl className="mt-4 grid grid-cols-2 gap-x-6 gap-y-3 rounded border border-slate-200 bg-white p-4 text-sm max-w-2xl">
+      <dl className="mt-4 grid grid-cols-2 gap-x-6 gap-y-3 rounded-xl border border-slate-200 bg-white shadow-sm p-4 text-sm max-w-2xl">
         <dt className="text-slate-500">Doctor</dt>
         <dd className="text-slate-900">{encounter.doctor.name}</dd>
 
@@ -121,7 +121,7 @@ export function EncounterDetailPage() {
         <h2 className="text-sm font-semibold text-slate-700">Clinical Records</h2>
         <ul className="mt-2 space-y-2">
           {encounter.clinical_records.map((r) => (
-            <li key={r.id} className="rounded border border-slate-200 bg-white p-3 text-sm">
+            <li key={r.id} className="rounded-xl border border-slate-200 bg-white shadow-sm p-3 text-sm">
               <div className="flex items-center justify-between">
                 <span className="font-medium text-slate-900">{r.record_type}</span>
                 <span className="text-xs text-slate-400">
@@ -138,13 +138,13 @@ export function EncounterDetailPage() {
       </div>
 
       {canDocument && isOpen && (
-        <div className="mt-6 max-w-2xl rounded border border-slate-200 bg-white p-4">
+        <div className="mt-6 max-w-2xl rounded-xl border border-slate-200 bg-white shadow-sm p-4">
           <h2 className="text-sm font-semibold text-slate-700">Add Clinical Note</h2>
           <form onSubmit={handleAddRecord} className="mt-3 space-y-3">
             <select
               value={recordType}
               onChange={(e) => setRecordType(e.target.value as RecordType)}
-              className="rounded border border-slate-300 px-3 py-2 text-sm"
+              className="rounded-lg border border-slate-300 px-3 py-2 text-sm transition-colors focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/30"
             >
               {RECORD_TYPES.map((t) => (
                 <option key={t} value={t}>
@@ -157,7 +157,7 @@ export function EncounterDetailPage() {
               value={description}
               onChange={(e) => setDescription(e.target.value)}
               placeholder="Describe the finding, prescription, procedure, or note..."
-              className="w-full rounded border border-slate-300 px-3 py-2 text-sm"
+              className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm transition-colors focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/30"
               rows={3}
             />
             {actionError && <p className="text-sm text-red-600">{actionError}</p>}
@@ -165,14 +165,14 @@ export function EncounterDetailPage() {
               <button
                 type="submit"
                 disabled={submitting}
-                className="rounded bg-slate-900 px-4 py-2 text-sm font-medium text-white disabled:opacity-50"
+                className="rounded-lg bg-brand-600 px-4 py-2 text-sm font-medium text-white shadow-sm transition-colors hover:bg-brand-700 disabled:cursor-not-allowed disabled:opacity-50"
               >
                 {submitting ? 'Adding...' : 'Add Record'}
               </button>
               <button
                 type="button"
                 onClick={handleClose}
-                className="rounded border border-red-300 px-4 py-2 text-sm text-red-600"
+                className="rounded-lg border border-red-300 px-4 py-2 text-sm font-medium text-red-600 transition-colors hover:bg-red-50"
               >
                 Close Encounter
               </button>

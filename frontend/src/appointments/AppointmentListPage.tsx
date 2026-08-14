@@ -37,11 +37,11 @@ export function AppointmentListPage() {
   return (
     <Layout>
       <div className="flex items-center justify-between">
-        <h1 className="text-lg font-semibold text-slate-900">Appointments</h1>
+        <h1 className="text-xl font-semibold tracking-tight text-slate-900">Appointments</h1>
         {canBook && (
           <Link
             to="/appointments/new"
-            className="rounded bg-slate-900 px-3 py-2 text-sm font-medium text-white"
+            className="rounded-lg bg-brand-600 px-4 py-2 text-sm font-medium text-white shadow-sm transition-colors hover:bg-brand-700"
           >
             + Book Appointment
           </Link>
@@ -52,7 +52,7 @@ export function AppointmentListPage() {
         <select
           value={status}
           onChange={(e) => setStatus(e.target.value as AppointmentStatus | '')}
-          className="rounded border border-slate-300 px-3 py-2 text-sm"
+          className="rounded-lg border border-slate-300 px-3 py-2 text-sm transition-colors focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/30"
         >
           <option value="">All statuses</option>
           {STATUS_OPTIONS.map((s) => (
@@ -65,7 +65,7 @@ export function AppointmentListPage() {
           type="date"
           value={date}
           onChange={(e) => setDate(e.target.value)}
-          className="rounded border border-slate-300 px-3 py-2 text-sm"
+          className="rounded-lg border border-slate-300 px-3 py-2 text-sm transition-colors focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/30"
         />
       </div>
 

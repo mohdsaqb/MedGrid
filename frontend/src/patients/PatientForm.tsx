@@ -53,7 +53,7 @@ export function PatientForm({ initial, submitLabel, onSubmit }: Props) {
             required
             value={form.first_name}
             onChange={(e) => set('first_name', e.target.value)}
-            className="mt-1 w-full rounded border border-slate-300 px-3 py-2 text-sm"
+            className="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm transition-colors focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/30"
           />
         </label>
         <label className="block text-sm font-medium text-slate-700">
@@ -62,7 +62,7 @@ export function PatientForm({ initial, submitLabel, onSubmit }: Props) {
             required
             value={form.last_name}
             onChange={(e) => set('last_name', e.target.value)}
-            className="mt-1 w-full rounded border border-slate-300 px-3 py-2 text-sm"
+            className="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm transition-colors focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/30"
           />
         </label>
       </div>
@@ -75,7 +75,7 @@ export function PatientForm({ initial, submitLabel, onSubmit }: Props) {
             required
             value={form.date_of_birth}
             onChange={(e) => set('date_of_birth', e.target.value)}
-            className="mt-1 w-full rounded border border-slate-300 px-3 py-2 text-sm"
+            className="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm transition-colors focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/30"
           />
         </label>
         <label className="block text-sm font-medium text-slate-700">
@@ -83,7 +83,7 @@ export function PatientForm({ initial, submitLabel, onSubmit }: Props) {
           <select
             value={form.gender ?? ''}
             onChange={(e) => set('gender', (e.target.value || null) as Gender | null)}
-            className="mt-1 w-full rounded border border-slate-300 px-3 py-2 text-sm"
+            className="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm transition-colors focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/30"
           >
             <option value="">Not specified</option>
             {GENDERS.map((g) => (
@@ -102,7 +102,7 @@ export function PatientForm({ initial, submitLabel, onSubmit }: Props) {
             required
             value={form.phone}
             onChange={(e) => set('phone', e.target.value)}
-            className="mt-1 w-full rounded border border-slate-300 px-3 py-2 text-sm"
+            className="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm transition-colors focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/30"
           />
         </label>
         <label className="block text-sm font-medium text-slate-700">
@@ -111,7 +111,7 @@ export function PatientForm({ initial, submitLabel, onSubmit }: Props) {
             type="email"
             value={form.email ?? ''}
             onChange={(e) => set('email', e.target.value || null)}
-            className="mt-1 w-full rounded border border-slate-300 px-3 py-2 text-sm"
+            className="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm transition-colors focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/30"
           />
         </label>
       </div>
@@ -121,7 +121,7 @@ export function PatientForm({ initial, submitLabel, onSubmit }: Props) {
         <textarea
           value={form.address ?? ''}
           onChange={(e) => set('address', e.target.value || null)}
-          className="mt-1 w-full rounded border border-slate-300 px-3 py-2 text-sm"
+          className="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm transition-colors focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/30"
           rows={2}
         />
       </label>
@@ -131,7 +131,7 @@ export function PatientForm({ initial, submitLabel, onSubmit }: Props) {
         <select
           value={form.blood_group ?? ''}
           onChange={(e) => set('blood_group', (e.target.value || null) as BloodGroup | null)}
-          className="mt-1 w-full rounded border border-slate-300 px-3 py-2 text-sm"
+          className="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm transition-colors focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/30"
         >
           <option value="">Unknown</option>
           {BLOOD_GROUPS.map((b) => (
@@ -147,7 +147,7 @@ export function PatientForm({ initial, submitLabel, onSubmit }: Props) {
       <button
         type="submit"
         disabled={submitting}
-        className="rounded bg-slate-900 px-4 py-2 text-sm font-medium text-white disabled:opacity-50"
+        className="rounded-lg bg-brand-600 px-4 py-2 text-sm font-medium text-white shadow-sm transition-colors hover:bg-brand-700 disabled:cursor-not-allowed disabled:opacity-50"
       >
         {submitting ? 'Saving...' : submitLabel}
       </button>

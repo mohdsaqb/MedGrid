@@ -21,7 +21,7 @@ export function PatientClinicalHistoryPage() {
 
   return (
     <Layout>
-      <h1 className="text-lg font-semibold text-slate-900">Clinical History</h1>
+      <h1 className="text-xl font-semibold tracking-tight text-slate-900">Clinical History</h1>
 
       {error && <p className="mt-4 text-sm text-red-600">{error}</p>}
 
@@ -31,13 +31,13 @@ export function PatientClinicalHistoryPage() {
             <p className="text-sm text-slate-400">No encounters recorded for this patient yet.</p>
           )}
           {history.map((enc) => (
-            <div key={enc.id} className="rounded border border-slate-200 bg-white p-4">
+            <div key={enc.id} className="rounded-xl border border-slate-200 bg-white shadow-sm p-4">
               <div className="flex items-center justify-between">
-                <Link to={`/encounters/${enc.id}`} className="font-medium text-slate-900 underline">
+                <Link to={`/encounters/${enc.id}`} className="font-medium text-brand-600 transition-colors hover:text-brand-700 hover:underline">
                   {new Date(enc.encounter_date).toLocaleString()} - {enc.doctor.name}
                 </Link>
                 <span
-                  className={`rounded px-2 py-1 text-xs font-medium ${
+                  className={`rounded-full px-2.5 py-1 text-xs font-semibold ring-1 ring-inset ring-black/5 ${
                     enc.status === 'OPEN'
                       ? 'bg-blue-50 text-blue-700'
                       : 'bg-slate-100 text-slate-500'
